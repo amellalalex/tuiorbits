@@ -1,2 +1,2 @@
 all:
-	clang -std=c89 main.c -lncurses -o edm-lighthouse
+	clang -std=c89 main.c -lncurses -o tuiorbit

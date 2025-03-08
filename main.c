@@ -1,37 +1,51 @@
 #include <ncurses.h>
+#include <stdbool.h>
+#include <math.h>
+
+bool 
+cercle(int x, int y, int m, int n, int r)
+{
+	y *= 2;
+	/* (x-m)^2 + (y-n)^2 = r^2 */
+	/* so x = sqrt(r^2 - (y-n)^2) + m */
+	if(x <= (m+r) && x >= (m-r) && y <= (n+r) && y >= (n-r)) {
+		return (
+			x == (int)sqrt(r*r - (y-n)*(y-n)) + m
+		||	x == (int)-sqrt(r*r - (y-n)*(y-n)) + m
+		);
+	} else {
+		return false;
+	}
+}
 
 main(void)
 {
 	int ch;
 	int done;
+	int x, y, m, n, r;
+
+	m = 10;
+	n = 10;
+	r = 10;
 
 	initscr();
 	raw();
 	keypad(stdscr, TRUE);
 	noecho();
 
-	done = 0;
-	while(!done) {
-		printw("Type any character to see it in bold\n");
-		ch = getch();
-
-		switch(ch) {
-			case KEY_F(1):
-				printw("Pressed the F1 key");
-				break;
-			case 'q':
-				printw("Quitting so early?");
-				done = 1;
-				break;
-			default:
-				printw("The pressed key is ");
-				attron(A_BOLD);
-				printw("%c", ch);
-				attroff(A_BOLD);
+	for(x=0, y=0; y < getmaxy(stdscr); x++) {
+		if(x > getmaxx(stdscr)) {
+			x = 0;
+			y++;
 		}
-
-		refresh();
+		if(cercle(x, y, m, n, r)) {
+			move(y, x);
+			printw("*");
+		}
 	}
+
+	ch = getch();
+	refresh();
 
 	endwin();
 }
