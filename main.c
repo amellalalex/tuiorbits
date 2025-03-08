@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include <stdbool.h>
 #include <math.h>
-#include "spdlog/spdlog.h"
+#include "log.h"
 
 struct Vec2D {
 	int x;
@@ -50,10 +50,6 @@ int main(void)
 	m = c.x;
 	n = c.y;
 
-	spdlog::info("r = {}", r);
-	spdlog::info("m = {}", m);
-	spdlog::info("n = {}", n);
-
 	for(x=0, y=0; y < getmaxy(stdscr); x++) {
 		if(x > getmaxx(stdscr)) {
 			x = 0;
@@ -69,4 +65,9 @@ int main(void)
 	refresh();
 
 	endwin();
+
+	log_info("r = %d", r);
+	log_info("m = %d", m);
+	log_info("n = %d", n);
+
 }

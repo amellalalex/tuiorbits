@@ -1,2 +1,4 @@
+SRC=main.c log.c
+
 all:
-	clang++ -std=c++17 -Iinclude main.cc -lncurses -o tuiorbit
+	$(CC) -std=c99 -Iinclude -I. $(SRC) -lncurses -o tuiorbit
