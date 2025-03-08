@@ -1,6 +1,12 @@
 #include <ncurses.h>
 #include <stdbool.h>
 #include <math.h>
+#include "spdlog/spdlog.h"
+
+struct Vec2D {
+	int x;
+	int y;
+};
 
 bool 
 cercle(int x, int y, int m, int n, int r)
@@ -18,20 +24,35 @@ cercle(int x, int y, int m, int n, int r)
 	}
 }
 
-main(void)
+struct Vec2D
+centerscr(int width, int height)
+{
+	return (struct Vec2D) {
+		.x = (getmaxx(stdscr) / 2) - (width / 2),
+		.y = (getmaxy(stdscr) / 2) - (height / 2),
+	};
+}
+
+int main(void)
 {
 	int ch;
 	int done;
 	int x, y, m, n, r;
-
-	m = 10;
-	n = 10;
-	r = 10;
+	struct Vec2D c;
 
 	initscr();
 	raw();
 	keypad(stdscr, TRUE);
 	noecho();
+
+	r = 10;
+	c = centerscr(2*r, 2*r);
+	m = c.x;
+	n = c.y;
+
+	spdlog::info("r = {}", r);
+	spdlog::info("m = {}", m);
+	spdlog::info("n = {}", n);
 
 	for(x=0, y=0; y < getmaxy(stdscr); x++) {
 		if(x > getmaxx(stdscr)) {

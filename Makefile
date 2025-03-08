@@ -1,2 +1,2 @@
 all:
-	clang -std=c89 main.c -lncurses -o tuiorbit
+	clang++ -std=c++17 -Iinclude main.cc -lncurses -o tuiorbit
